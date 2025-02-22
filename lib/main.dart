@@ -7,8 +7,9 @@ import 'package:rest_now_app/presentation/screen/control_screen/control_screen.d
 import 'package:rest_now_app/presentation/screen/payment_screen/bloc/payment_screen_cubit.dart';
 import 'package:rest_now_app/presentation/screen/payment_screen/payment_screen.dart';
 
-void main() {
-  initDi(GetIt.instance);
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initDi(GetIt.instance);
   runApp(const MyApp());
 }
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:multiple_result/multiple_result.dart';
 import 'package:rest_now_app/data/source/remote/api_source.dart';
 import 'package:rest_now_app/domain/repository/remote/api_repository.dart';
@@ -18,8 +16,6 @@ class ApiRepositoryImpl implements ApiRepository {
         return Error(Exception('Error'));
       }
 
-      log(result.body);
-
       return const Success(null);
     } catch (e) {
       return Error(e as Exception);
@@ -36,8 +32,6 @@ class ApiRepositoryImpl implements ApiRepository {
       if (result.statusCode >= 400) {
         return Error(Exception('Error'));
       }
-
-      log(result.body);
 
       return const Success(null);
     } catch (e) {

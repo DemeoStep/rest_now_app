@@ -1,6 +1,5 @@
 part of 'control_screen_cubit.dart';
 
-@immutable
 sealed class ControlScreenState {
   final ControlScreenStateData data;
 
