@@ -15,12 +15,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> initDi(GetIt getIt) async {
   final prefs = await SharedPreferences.getInstance();
-
+  //Source
   getIt.registerSingleton<ApiSource>(ApiSourceImpl());
+
+  //Repository
   getIt.registerSingleton<ApiRepository>(ApiRepositoryImpl(
     apiSource: GetIt.I<ApiSource>(),
   ));
   getIt.registerSingleton<StoreRepository>(StoreRepositoryImpl(prefs));
+
+  //UseCase
   getIt.registerSingleton<MakePayUseCase>(MakePayUseCase(
     apiRepository: GetIt.I<ApiRepository>(),
   ));
@@ -34,6 +38,7 @@ Future<void> initDi(GetIt getIt) async {
     storeRepository: GetIt.I<StoreRepository>(),
   ));
 
+  //Bloc
   getIt.registerFactory<PaymentScreenCubit>(() => PaymentScreenCubit(
         makePayUseCase: GetIt.I<MakePayUseCase>(),
         readStateUseCase: GetIt.I<ReadStateUseCase>(),

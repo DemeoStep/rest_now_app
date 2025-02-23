@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:rest_now_app/app/localization/generated/l10n.dart';
+import 'package:rest_now_app/data/model/failure.dart';
 import 'package:rest_now_app/presentation/screen/payment_screen/bloc/payment_screen_cubit.dart';
 
 class PaymentScreen extends StatelessWidget {
@@ -15,7 +17,7 @@ class PaymentScreen extends StatelessWidget {
             if (state is PaymentScreenSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Payment Success'),
+                  content: Text(S.of(context).paymentSuccess),
                 ),
               );
               Navigator.of(context).pushNamed('/control').then(
@@ -29,7 +31,8 @@ class PaymentScreen extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.red,
-                  content: Text('Payment Failed'),
+                  content: Text(
+                      '${S.of(context).paymentFailed}:\n\n${state.failure.getLocalizedMessage(context)}'),
                 ),
               );
             }
@@ -47,7 +50,7 @@ class PaymentScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () => context.read<PaymentScreenCubit>().pay(),
-                  child: Text('Pay'),
+                  child: Text(S.of(context).pay),
                 ),
                 Visibility(
                   visible: state.data.lastPaymentDate != DateTime(0),
@@ -57,7 +60,7 @@ class PaymentScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 12),
                     child: Text(
-                        'Last payment: ${DateFormat('dd MMMM yyy HH:mm').format(state.data.lastPaymentDate)}'),
+                        '${S.of(context).lastPayment}: ${DateFormat('dd MMMM yyy HH:mm').format(state.data.lastPaymentDate)}'),
                   ),
                 ),
               ],

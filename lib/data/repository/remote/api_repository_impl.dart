@@ -1,41 +1,57 @@
 import 'package:multiple_result/multiple_result.dart';
+import 'package:rest_now_app/app/http_processor.dart';
+import 'package:rest_now_app/data/model/failure.dart';
+import 'package:rest_now_app/data/model/operation_status.dart';
 import 'package:rest_now_app/data/source/remote/api_source.dart';
 import 'package:rest_now_app/domain/repository/remote/api_repository.dart';
 
-class ApiRepositoryImpl implements ApiRepository {
+class ApiRepositoryImpl with HttpResponseProcessor implements ApiRepository {
   final ApiSource _apiSource;
 
   ApiRepositoryImpl({required ApiSource apiSource}) : _apiSource = apiSource;
 
   @override
-  Future<Result<void, Exception>> makePay() async {
+  Future<Result<OperationStatus, Failure>> makePay() async {
     try {
-      final result = await _apiSource.makePay();
+      final apiResult = await _apiSource.makePay();
 
-      if (result.statusCode >= 400) {
-        return Error(Exception('Error'));
+      final result = process(apiResult);
+
+      if (result.isError()) {
+        final failure = result.tryGetError();
+
+        if (failure != null) {
+          return Error(failure);
+        }
       }
 
-      return const Success(null);
+      return Success(OperationStatus.success);
     } catch (e) {
-      return Error(e as Exception);
+      return Error(
+          AppFailure(exception: e as Exception, message: e.toString()));
     }
   }
 
   @override
-  Future<Result<void, Exception>> switchMassage({
+  Future<Result<OperationStatus, Failure>> switchMassage({
     required bool state,
   }) async {
     try {
-      final result = await _apiSource.switchMassage(state: state);
+      final apiResult = await _apiSource.switchMassage(state: state);
 
-      if (result.statusCode >= 400) {
-        return Error(Exception('Error'));
+      final result = process(apiResult);
+
+      if (result.isError()) {
+        final failure = result.tryGetError();
+
+        if (failure != null) {
+          return Error(failure);
+        }
       }
 
-      return const Success(null);
+      return Success(OperationStatus.success);
     } catch (e) {
-      return Error(e as Exception);
+      return Error(AppFailure(message: e.toString()));
     }
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'bloc/control_screen_cubit.dart';
+import 'package:rest_now_app/app/localization/generated/l10n.dart';
+import 'package:rest_now_app/data/model/failure.dart';
+import 'package:rest_now_app/presentation/screen/control_screen/bloc/control_screen_cubit.dart';
 
 class ControlScreen extends StatelessWidget {
   const ControlScreen({super.key});
@@ -16,17 +17,25 @@ class ControlScreen extends StatelessWidget {
             child: BlocConsumer<ControlScreenCubit, ControlScreenState>(
               listener: (context, state) {
                 if (state is ControlScreenSuccess) {
+                  final massageState = state.data.state
+                      ? S.of(context).started
+                      : S.of(context).stopped;
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Success'),
+                      content: Text(S.of(context).massageState(massageState)),
                     ),
                   );
                 }
                 if (state is ControlScreenFailure) {
+                  final processString = state.data.state
+                      ? S.of(context).stopMassage
+                      : S.of(context).startMassage;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.red,
-                      content: Text('Error'),
+                      content: Text(
+                          '${S.of(context).processError(processString.toLowerCase())}:\n\n${state.failure.getLocalizedMessage(context)}'),
                     ),
                   );
                 }
@@ -40,8 +49,8 @@ class ControlScreen extends StatelessWidget {
                   onPressed: () =>
                       context.read<ControlScreenCubit>().switchMassage(),
                   child: state.data.state
-                      ? Text('Stop massage')
-                      : Text('Start massage'),
+                      ? Text(S.of(context).stopMassage)
+                      : Text(S.of(context).startMassage),
                 );
               },
             ),

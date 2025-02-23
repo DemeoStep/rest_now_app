@@ -1,6 +1,6 @@
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 abstract class ApiSource {
-  Future<http.Response> makePay();
-  Future<http.Response> switchMassage({required bool state});
+  Future<Response> makePay();
+  Future<Response> switchMassage({required bool state});
 }

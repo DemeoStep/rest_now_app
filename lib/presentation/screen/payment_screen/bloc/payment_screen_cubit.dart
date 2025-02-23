@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rest_now_app/data/model/failure.dart';
 import 'package:rest_now_app/domain/usecase/make_pay_use_case.dart';
 import 'package:rest_now_app/domain/usecase/read_state_use_case.dart';
 import 'package:rest_now_app/domain/usecase/update_state_use_case.dart';
@@ -42,6 +43,7 @@ class PaymentScreenCubit extends Cubit<PaymentScreenState> {
         emit(
           PaymentScreenFailure(
             data: state.data,
+            failure: error,
           ),
         );
       },
@@ -57,9 +59,15 @@ class PaymentScreenCubit extends Cubit<PaymentScreenState> {
       final result = await _makePayUseCase();
 
       if (result.isError()) {
-        emit(PaymentScreenFailure(
-          data: state.data,
-        ));
+        final failure = result.tryGetError();
+
+        if (failure != null) {
+          emit(PaymentScreenFailure(
+            data: state.data,
+            failure: failure,
+          ));
+        }
+
         return;
       }
 
@@ -82,6 +90,7 @@ class PaymentScreenCubit extends Cubit<PaymentScreenState> {
           emit(
             PaymentScreenFailure(
               data: state.data,
+              failure: error,
             ),
           );
         },

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rest_now_app/data/model/failure.dart';
 import 'package:rest_now_app/domain/usecase/read_state_use_case.dart';
 import 'package:rest_now_app/domain/usecase/switch_massage_use_case.dart';
 import 'package:rest_now_app/domain/usecase/update_state_use_case.dart';
@@ -38,6 +39,7 @@ class ControlScreenCubit extends Cubit<ControlScreenState> {
         emit(
           ControlScreenFailure(
             data: state.data,
+            failure: error,
           ),
         );
       },
@@ -52,7 +54,10 @@ class ControlScreenCubit extends Cubit<ControlScreenState> {
         final result = await _switchMassageUseCase(state: !state.data.state);
 
         if (result.isError()) {
-          emit(ControlScreenFailure(data: state.data));
+          final failure = result.tryGetError();
+          if (failure != null) {
+            emit(ControlScreenFailure(data: state.data, failure: failure));
+          }
           return;
         }
 
@@ -78,6 +83,7 @@ class ControlScreenCubit extends Cubit<ControlScreenState> {
             emit(
               ControlScreenFailure(
                 data: state.data,
+                failure: error,
               ),
             );
           },

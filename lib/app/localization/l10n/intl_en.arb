@@ -1,0 +1,18 @@
+{
+  "@@locale": "en",
+  "pay": "Pay",
+  "lastPayment": "Last payment",
+  "paymentFailed": "Payment Failed",
+  "paymentSuccess": "Payment Successful",
+  "massageState": "Massage is {state}",
+  "started": "started",
+  "stopped": "stopped",
+  "error": "Error",
+  "stopMassage": "Stop massage",
+  "startMassage": "Start massage",
+  "processError": "Failed to {process}",
+  "serverError": "Looks like we ran into an issue while processing this request. Please try again.\nReach out to support if you continue to experience issues.",
+  "networkError": "Sorry, we're having trouble connecting. Please check your internet connection and try again.\nReach out to support if you continue to experience issues.",
+  "storageError": "Looks like we ran into an issue with storage. Please try again.\nReach out to support if you continue to experience issues.",
+  "unknownError": "An unknown error occurred. Please try again.\nReach out to support if you continue to experience issues."
+}

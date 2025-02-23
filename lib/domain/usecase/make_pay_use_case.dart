@@ -1,4 +1,6 @@
 import 'package:multiple_result/multiple_result.dart';
+import 'package:rest_now_app/data/model/failure.dart';
+import 'package:rest_now_app/data/model/operation_status.dart';
 import 'package:rest_now_app/domain/repository/remote/api_repository.dart';
 
 class MakePayUseCase {
@@ -8,5 +10,5 @@ class MakePayUseCase {
     required ApiRepository apiRepository,
   }) : _apiRepository = apiRepository;
 
-  Future<Result<void, Exception>> call() => _apiRepository.makePay();
+  Future<Result<OperationStatus, Failure>> call() => _apiRepository.makePay();
 }

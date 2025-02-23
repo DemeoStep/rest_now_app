@@ -21,7 +21,8 @@ final class ControlScreenSuccess extends ControlScreenState {
 }
 
 final class ControlScreenFailure extends ControlScreenState {
-  const ControlScreenFailure({required super.data});
+  final Failure failure;
+  const ControlScreenFailure({required super.data, required this.failure});
 }
 
 final class ControlScreenStateData {

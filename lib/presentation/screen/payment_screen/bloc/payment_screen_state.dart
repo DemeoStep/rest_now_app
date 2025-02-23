@@ -21,7 +21,8 @@ final class PaymentScreenSuccess extends PaymentScreenState {
 }
 
 final class PaymentScreenFailure extends PaymentScreenState {
-  const PaymentScreenFailure({required super.data});
+  final Failure failure;
+  const PaymentScreenFailure({required super.data, required this.failure});
 }
 
 final class PaymentScreenStateData {

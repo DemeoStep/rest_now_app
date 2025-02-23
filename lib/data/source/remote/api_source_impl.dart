@@ -10,7 +10,9 @@ class ApiSourceImpl implements ApiSource {
 
   @override
   Future<http.Response> makePay() async {
-    return await http.get(Uri.parse(usersUrl));
+    final response = await http.get(Uri.parse(usersUrl));
+
+    return response;
   }
 
   @override
