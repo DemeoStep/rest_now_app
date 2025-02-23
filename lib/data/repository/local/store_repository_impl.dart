@@ -29,10 +29,9 @@ class StoreRepositoryImpl implements StoreRepository {
 
       if (data != null) {
         _state = mapper.fromModel(StateModel.fromJson(jsonDecode(data)));
-        return Success(_state);
       }
 
-      return Error(StorageFailure());
+      return Success(_state);
     } catch (e) {
       return Error(StorageFailure());
     }
