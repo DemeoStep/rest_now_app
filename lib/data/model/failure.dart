@@ -33,7 +33,7 @@ extension FailureExtension on Failure {
       case StorageFailure _:
         return S.of(context).storageError;
       default:
-        return 'Unknown error';
+        return S.of(context).unknownError;
     }
   }
 
